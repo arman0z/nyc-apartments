@@ -9,6 +9,7 @@ from nyc_apartments.models import Listing
 class GeocodeTests(unittest.TestCase):
     def test_looks_like_nyc_street_address(self) -> None:
         self.assertTrue(looks_like_nyc_street_address("228a prospect park west"))
+        self.assertTrue(looks_like_nyc_street_address("21-43 29th street"))
         self.assertFalse(looks_like_nyc_street_address("New York, New York"))
 
     def test_apply_geocode_result(self) -> None:

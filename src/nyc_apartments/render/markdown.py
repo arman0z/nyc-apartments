@@ -54,6 +54,8 @@ def replace_generated_section(readme: str, feed: str) -> str:
 
     before = readme.split(START_MARKER, 1)[0].rstrip()
     after = readme.split(END_MARKER, 1)[1].lstrip()
+    if not after:
+        return before + "\n\n" + feed.rstrip() + "\n"
     return before + "\n\n" + feed.rstrip() + "\n\n" + after
 
 

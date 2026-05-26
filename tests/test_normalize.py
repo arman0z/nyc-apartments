@@ -26,6 +26,7 @@ class NormalizeTests(unittest.TestCase):
 
     def test_normalize_building_key_removes_unit(self) -> None:
         self.assertEqual(normalize_building_key("456 Demo Avenue #2B"), "456 demo avenue")
+        self.assertEqual(normalize_building_key("21-43 29th Street #2D"), "21-43 29th street")
 
     def test_rent_stabilized_source_claim_gets_policy_flag(self) -> None:
         listings = normalize_items(

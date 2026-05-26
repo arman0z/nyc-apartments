@@ -167,6 +167,7 @@ Current implementation:
 - firstmovernyc rent-stabilized listings repo: https://github.com/firstmovernyc/nyc-rent-stabilized-listings
 - NYC Planning GeoSearch: https://geosearch.planninglabs.nyc/docs/
 - NYC Open Data DOF Property Abatement Detail: https://data.cityofnewyork.us/d/rgyu-ii48
+- NYC Open Data DOF Property Exemption Detail: https://data.cityofnewyork.us/d/muvi-b6kx
 
 ## Current Live Smoke Notes
 

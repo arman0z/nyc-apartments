@@ -236,7 +236,7 @@ def build_history_key(listing: Listing) -> str:
 
 
 def looks_specific_building_key(value: str) -> bool:
-    return bool(value and "," not in value and re.search(r"^\s*\d+[a-z]?\s+\S+", value, re.I))
+    return bool(value and "," not in value and re.search(r"^\s*\d+(?:-\d+)?[a-z]?\s+\S+", value, re.I))
 
 
 def stable_id(namespace: str, value: str) -> str:

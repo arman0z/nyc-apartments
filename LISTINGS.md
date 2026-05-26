@@ -3,23 +3,21 @@
 <!-- NYC_APARTMENT_FEED_START -->
 ## Current Listing Feed
 
-Last updated: 2026-05-26T03:24:33+00:00
-Active listings: 2 (streeteasy: 2)
+Last updated: 2026-05-26T03:30:07+00:00
+Active listings: 1 (streeteasy: 1)
 Missing/removed tracked: 4
 
 ### High Priority
 
 | Score | Price | Beds | Area/address | Source | BBL/BIN | Signals | Change | Link |
 | ---: | --- | --- | --- | --- | --- | --- | --- | --- |
-| 95 | $3,900 | 2 | 456 Demo Avenue #2B | streeteasy | BBL 3041800058, BIN 3414892 | verified_source_claim, building_registered_rs, tax_benefit_active, pre_1974_6plus_candidate, good_cause_unclear | new | [Rent stabilized 2 bed in elevator building](https://streeteasy.com/building/stabilized-demo/2b) |
-| 60 | $4,200 | 2 | 123 Demo Street #4A | streeteasy | BBL 1019087504, BIN 1087830 | good_cause_unclear | new | [No Fee 2 Bed Near Prospect Park](https://streeteasy.com/building/demo-building/4a) |
+| 55 | $3,350 | 2 | 21-43 29th Street #2D | streeteasy | BBL 4008460018, BIN 4017692 | good_cause_unclear | new | [21-43 29th Street #2D](https://streeteasy.com/building/21_43-29-street-astoria/2d?featured=1) |
 
 ### New Listings
 
 | Score | Price | Beds | Area/address | Source | BBL/BIN | Signals | Change | Link |
 | ---: | --- | --- | --- | --- | --- | --- | --- | --- |
-| 95 | $3,900 | 2 | 456 Demo Avenue #2B | streeteasy | BBL 3041800058, BIN 3414892 | verified_source_claim, building_registered_rs, tax_benefit_active, pre_1974_6plus_candidate, good_cause_unclear | new | [Rent stabilized 2 bed in elevator building](https://streeteasy.com/building/stabilized-demo/2b) |
-| 60 | $4,200 | 2 | 123 Demo Street #4A | streeteasy | BBL 1019087504, BIN 1087830 | good_cause_unclear | new | [No Fee 2 Bed Near Prospect Park](https://streeteasy.com/building/demo-building/4a) |
+| 55 | $3,350 | 2 | 21-43 29th Street #2D | streeteasy | BBL 4008460018, BIN 4017692 | good_cause_unclear | new | [21-43 29th Street #2D](https://streeteasy.com/building/21_43-29-street-astoria/2d?featured=1) |
 
 ### Price Drops
 
@@ -27,9 +25,7 @@ No listings.
 
 ### Policy Signals
 
-| Score | Price | Beds | Area/address | Source | BBL/BIN | Signals | Change | Link |
-| ---: | --- | --- | --- | --- | --- | --- | --- | --- |
-| 95 | $3,900 | 2 | 456 Demo Avenue #2B | streeteasy | BBL 3041800058, BIN 3414892 | verified_source_claim, building_registered_rs, tax_benefit_active, pre_1974_6plus_candidate, good_cause_unclear | new | [Rent stabilized 2 bed in elevator building](https://streeteasy.com/building/stabilized-demo/2b) |
+No listings.
 
 ### Manual Review
 
