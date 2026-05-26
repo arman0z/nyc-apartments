@@ -9,7 +9,7 @@
     "broker_fee_known": false,
     "building_key": "21-43 29th street",
     "change_flags": [
-      "new_listing"
+      "missing_listing"
     ],
     "city": "",
     "dedupe_key": "address_e83696f43f948a22",
@@ -19,7 +19,7 @@
     "last_seen_at": "2026-05-26T03:30:07+00:00",
     "latitude": 40.777565,
     "longitude": -73.910421,
-    "missing_runs": 0,
+    "missing_runs": 1,
     "neighborhood": "Ditmars-Steinway",
     "net_effective_price": null,
     "no_fee": null,
@@ -33,7 +33,9 @@
     "price_changed_at": "",
     "price_delta": null,
     "price_history": [],
-    "quality_flags": [],
+    "quality_flags": [
+      "missing_from_latest_run"
+    ],
     "raw_address": "21-43 29th Street #2D",
     "relisted_at": "",
     "removed_at": "",
@@ -49,7 +51,7 @@
     "source_url": "https://streeteasy.com/building/21_43-29-street-astoria/2d?featured=1",
     "square_feet": 0,
     "state": "",
-    "status": "active",
+    "status": "missing",
     "title": "21-43 29th Street #2D",
     "unit": "2D",
     "zip": "11105"
@@ -64,7 +66,7 @@
     "broker_fee_known": false,
     "building_key": "224 east 135th street",
     "change_flags": [
-      "missing_listing"
+      "removed_listing"
     ],
     "city": "",
     "dedupe_key": "address_32fbf2859d0ea61b",
@@ -74,7 +76,7 @@
     "last_seen_at": "2026-05-05T01:59:54.321319+00:00",
     "latitude": 40.809945,
     "longitude": -73.931046,
-    "missing_runs": 1,
+    "missing_runs": 2,
     "neighborhood": "Mott Haven",
     "net_effective_price": null,
     "no_fee": null,
@@ -92,7 +94,7 @@
     ],
     "raw_address": "224 East 135th Street #1212S",
     "relisted_at": "",
-    "removed_at": "",
+    "removed_at": "2026-05-26T08:03:08+00:00",
     "score": 50,
     "score_reasons": [
       "within price target",
@@ -104,7 +106,7 @@
     "source_url": "https://streeteasy.com/building/the-arches-nyc/1212s",
     "square_feet": 0,
     "state": "",
-    "status": "missing",
+    "status": "removed",
     "title": "224 East 135th Street #1212S",
     "unit": "1212S",
     "zip": "10451"
@@ -119,7 +121,7 @@
     "broker_fee_known": false,
     "building_key": "532 neptune avenue",
     "change_flags": [
-      "missing_listing"
+      "removed_listing"
     ],
     "city": "",
     "dedupe_key": "address_0570193dea1fb49f",
@@ -129,7 +131,7 @@
     "last_seen_at": "2026-05-05T01:59:54.281032+00:00",
     "latitude": 40.579239,
     "longitude": -73.972704,
-    "missing_runs": 1,
+    "missing_runs": 2,
     "neighborhood": "Coney Island",
     "net_effective_price": null,
     "no_fee": null,
@@ -147,7 +149,7 @@
     ],
     "raw_address": "532 Neptune Avenue #307H",
     "relisted_at": "",
-    "removed_at": "",
+    "removed_at": "2026-05-26T08:03:08+00:00",
     "score": 50,
     "score_reasons": [
       "within price target",
@@ -159,7 +161,7 @@
     "source_url": "https://streeteasy.com/building/sky-three-residences-club/307h?featured=1",
     "square_feet": 990,
     "state": "",
-    "status": "missing",
+    "status": "removed",
     "title": "532 Neptune Avenue #307H",
     "unit": "307H",
     "zip": "11224"
@@ -174,7 +176,7 @@
     "broker_fee_known": false,
     "building_key": "228a prospect park west",
     "change_flags": [
-      "missing_listing"
+      "removed_listing"
     ],
     "city": "",
     "dedupe_key": "address_e9919212fe7a8b51",
@@ -184,7 +186,7 @@
     "last_seen_at": "2026-05-05T01:59:54.170509+00:00",
     "latitude": 40.659787,
     "longitude": -73.981221,
-    "missing_runs": 1,
+    "missing_runs": 2,
     "neighborhood": "Park Slope",
     "net_effective_price": null,
     "no_fee": null,
@@ -202,7 +204,7 @@
     ],
     "raw_address": "228a Prospect Park West #2A",
     "relisted_at": "",
-    "removed_at": "",
+    "removed_at": "2026-05-26T08:03:08+00:00",
     "score": 50,
     "score_reasons": [
       "within price target",
@@ -214,7 +216,7 @@
     "source_url": "https://streeteasy.com/building/228a-prospect-park-west-brooklyn/2a?featured=1",
     "square_feet": 0,
     "state": "",
-    "status": "missing",
+    "status": "removed",
     "title": "228a Prospect Park West #2A",
     "unit": "2A",
     "zip": "11215"
@@ -229,7 +231,7 @@
     "broker_fee_known": false,
     "building_key": "new york, new york",
     "change_flags": [
-      "missing_listing"
+      "removed_listing"
     ],
     "city": "",
     "dedupe_key": "address_73190cc8261de7ab",
@@ -239,7 +241,7 @@
     "last_seen_at": "2026-05-05T02:40:20.430937+00:00",
     "latitude": null,
     "longitude": null,
-    "missing_runs": 1,
+    "missing_runs": 2,
     "neighborhood": "",
     "net_effective_price": null,
     "no_fee": null,
@@ -258,7 +260,7 @@
     ],
     "raw_address": "New York, New York",
     "relisted_at": "",
-    "removed_at": "",
+    "removed_at": "2026-05-26T08:03:08+00:00",
     "score": 45,
     "score_reasons": [
       "within price target",
@@ -270,7 +272,7 @@
     "source_url": "https://www.facebook.com/marketplace/item/1940915213055279",
     "square_feet": null,
     "state": "",
-    "status": "missing",
+    "status": "removed",
     "title": "2 Beds 1 Bath - House",
     "unit": "",
     "zip": ""
