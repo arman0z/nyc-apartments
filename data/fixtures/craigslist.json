@@ -1,0 +1,12 @@
+[
+  {
+    "pid": "cl-demo-1",
+    "url": "https://newyork.craigslist.org/brk/apa/d/demo-apartment/123.html",
+    "title": "2BR sunny no fee apartment",
+    "location": "Williamsburg, Brooklyn",
+    "price": "$4,100",
+    "bedrooms": "2",
+    "sqft": "780",
+    "postedAt": "2026-05-04T11:30:00+00:00"
+  }
+]

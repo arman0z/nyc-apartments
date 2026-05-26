@@ -1,0 +1,45 @@
+name: Update listings
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */4 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update-listings:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install live dependencies
+        run: python -m pip install -e '.[live]'
+
+      - name: Restore listing caches
+        uses: actions/cache@v4
+        with:
+          path: |
+            data/source-cache
+            data/geocode-cache.json
+            data/tax-benefit-cache.json
+          key: listing-cache-${{ github.ref_name }}
+
+      - name: Run listing pipeline
+        env:
+          APIFY_API_TOKEN: ${{ secrets.APIFY_API_TOKEN }}
+        run: nyc-apartments run --live --config config/search.example.toml
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md LISTINGS.md data/current-listings.json
+          git diff --cached --quiet || git commit -m "chore: update listings"
+          git push

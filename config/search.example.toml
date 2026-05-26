@@ -1,0 +1,80 @@
+[criteria]
+min_bedrooms = 2
+max_price = 4400
+areas = [
+  "Manhattan",
+  "Brooklyn",
+  "Queens",
+  "Jersey City",
+  "Hoboken",
+]
+strict_location_sources = ["facebook"]
+allowed_location_terms = [
+  "New York, New York",
+  "Brooklyn, New York",
+  "Queens, New York",
+  "Bronx, New York",
+  "Staten Island, New York",
+  "Jersey City, New Jersey",
+  "Hoboken, New Jersey",
+  "Long Island City, New York",
+  "Astoria, New York",
+]
+excluded_location_terms = [
+  "Paterson",
+  "Newark",
+  "Deer Park",
+]
+
+[policy]
+building_signals_path = "data/policy/building-signals.example.csv"
+local_421a_bbls_path = "data/policy/421a-bbls.csv"
+
+[enrichment]
+geocode_nyc_addresses = true
+tax_benefit_lookup = true
+geocode_cache_path = "data/geocode-cache.json"
+tax_benefit_cache_path = "data/tax-benefit-cache.json"
+
+[[sources]]
+name = "streeteasy"
+type = "apify"
+enabled = true
+actor_id = "crawlerbros/streeteasy-scraper"
+max_items = 25
+
+[sources.input]
+startUrls = [
+  { url = "https://streeteasy.com/2-bedroom-apartments-for-rent/nyc/price:-4400" },
+]
+maxResults = 25
+detailedMode = false
+
+[[sources]]
+name = "craigslist"
+type = "apify"
+enabled = false
+actor_id = "ivanvs/craigslist-scraper-pay-per-result"
+max_items = 25
+
+[sources.input]
+maxConcurrency = 1
+maxAge = 1
+proxyConfiguration = { useApifyProxy = true }
+urls = [
+  { url = "https://newyork.craigslist.org/search/apa?query=2%20bedroom&max_price=4400&min_bedrooms=2&postedToday=1" },
+]
+
+[[sources]]
+name = "facebook"
+type = "apify"
+enabled = true
+actor_id = "apify/facebook-marketplace-scraper"
+max_items = 25
+
+[sources.input]
+startUrls = [
+  { url = "https://www.facebook.com/marketplace/nyc/propertyrentals?maxPrice=4400&exact=false" },
+]
+resultsLimit = 25
+includeListingDetails = false

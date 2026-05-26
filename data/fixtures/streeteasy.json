@@ -1,0 +1,27 @@
+[
+  {
+    "id": "streeteasy-demo-1",
+    "url": "https://streeteasy.com/building/demo-building/4a",
+    "title": "No Fee 2 Bed Near Prospect Park",
+    "address": "123 Demo Street #4A",
+    "neighborhood": "Park Slope",
+    "price": 4200,
+    "bedrooms": 2,
+    "bathrooms": 1,
+    "squareFeet": 900,
+    "tags": ["No Fee", "Laundry"],
+    "scrapedAt": "2026-05-04T12:00:00+00:00"
+  },
+  {
+    "id": "streeteasy-demo-2",
+    "url": "https://streeteasy.com/building/stabilized-demo/2b",
+    "title": "Rent stabilized 2 bed in elevator building",
+    "address": "456 Demo Avenue #2B",
+    "neighborhood": "Astoria",
+    "price": 3900,
+    "bedrooms": 2,
+    "bathrooms": 1,
+    "squareFeet": 850,
+    "scrapedAt": "2026-05-04T12:00:00+00:00"
+  }
+]

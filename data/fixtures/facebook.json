@@ -1,0 +1,13 @@
+[
+  {
+    "id": "fb-demo-1",
+    "url": "https://www.facebook.com/marketplace/item/123456789/",
+    "marketplace_listing_title": "2 bedroom apartment available June 1",
+    "listing_price": {
+      "formatted_amount_zeros_stripped": "$3,800"
+    },
+    "location_text": {
+      "text": "Long Island City, Queens"
+    }
+  }
+]
