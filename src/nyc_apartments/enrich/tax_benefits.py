@@ -11,6 +11,7 @@ from nyc_apartments.models import Listing
 
 
 J51_ABATEMENT_URL = "https://data.cityofnewyork.us/resource/rgyu-ii48.json"
+PROPERTY_EXEMPTION_URL = "https://data.cityofnewyork.us/resource/muvi-b6kx.json"
 
 
 @dataclass(slots=True)
@@ -64,6 +65,22 @@ def enrich_tax_benefits(
 
 
 def lookup_tax_benefits(bbl: str) -> TaxBenefitResult:
+    flags: list[str] = []
+    evidence: list[str] = []
+
+    for lookup in (lookup_j51_benefits, lookup_421a_exemptions):
+        try:
+            result = lookup(bbl)
+        except Exception as exc:
+            evidence.append(f"{lookup.__name__} failed: {type(exc).__name__}")
+            continue
+        flags.extend(result.flags)
+        evidence.extend(result.evidence)
+
+    return TaxBenefitResult(bbl=bbl, flags=sorted(set(flags)), evidence=evidence)
+
+
+def lookup_j51_benefits(bbl: str) -> TaxBenefitResult:
     params = urlencode(
         {
             "$limit": 1,
@@ -83,6 +100,38 @@ def lookup_tax_benefits(bbl: str) -> TaxBenefitResult:
         evidence.append(
             "J-51 abatement record"
             + (f" taxyr={latest.get('taxyr')}" if latest.get("taxyr") else "")
+        )
+
+    return TaxBenefitResult(bbl=bbl, flags=flags, evidence=evidence)
+
+
+def lookup_421a_exemptions(bbl: str) -> TaxBenefitResult:
+    params = urlencode(
+        {
+            "$limit": 1,
+            "$select": "parid,year,exmp_code,exmp_code_suffix,nys_exmp_code,pstatus",
+            "$where": (
+                f"parid='{bbl}' AND ("
+                "exmp_code='421A' OR "
+                "exmp_code_suffix like '421A%' OR "
+                "nys_exmp_code='421A'"
+                ")"
+            ),
+            "$order": "year DESC",
+        }
+    )
+    with urlopen(f"{PROPERTY_EXEMPTION_URL}?{params}", timeout=20) as response:
+        rows = json.loads(response.read().decode("utf-8"))
+
+    flags: list[str] = []
+    evidence: list[str] = []
+    if rows:
+        flags.append("tax_benefit_421a_open_data")
+        latest = rows[0]
+        evidence.append(
+            "421-a exemption record"
+            + (f" year={latest.get('year')}" if latest.get("year") else "")
+            + (f" status={latest.get('pstatus')}" if latest.get("pstatus") else "")
         )
 
     return TaxBenefitResult(bbl=bbl, flags=flags, evidence=evidence)

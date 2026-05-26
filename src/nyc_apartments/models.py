@@ -1,7 +1,10 @@
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, field, fields
 from typing import Any
+
+
+PUBLIC_OMIT_FIELDS = {"raw", "agent_name", "brokerage", "contact_url"}
 
 
 @dataclass(slots=True)
@@ -36,10 +39,19 @@ class Listing:
     last_seen_at: str = ""
     scraped_at: str = ""
     status: str = "active"
+    missing_runs: int = 0
+    removed_at: str = ""
+    relisted_at: str = ""
     agent_name: str = ""
     brokerage: str = ""
     contact_url: str = ""
     dedupe_key: str = ""
+    history_key: str = ""
+    previous_price: int | None = None
+    price_delta: int | None = None
+    price_changed_at: str = ""
+    price_history: list[dict[str, Any]] = field(default_factory=list)
+    change_flags: list[str] = field(default_factory=list)
     policy_flags: list[str] = field(default_factory=list)
     quality_flags: list[str] = field(default_factory=list)
     score: int = 0
@@ -48,7 +60,8 @@ class Listing:
 
     def to_dict(self) -> dict[str, Any]:
         payload = asdict(self)
-        payload.pop("raw", None)
+        for field_name in PUBLIC_OMIT_FIELDS:
+            payload.pop(field_name, None)
         return payload
 
     @property
@@ -66,3 +79,17 @@ class Listing:
         if float(self.bedrooms).is_integer():
             return str(int(self.bedrooms))
         return str(self.bedrooms)
+
+
+def listing_from_dict(payload: dict[str, Any]) -> Listing:
+    listing = Listing(
+        source=str(payload.get("source") or ""),
+        source_listing_id=str(payload.get("source_listing_id") or ""),
+        source_url=str(payload.get("source_url") or ""),
+        title=str(payload.get("title") or "(untitled listing)"),
+    )
+    field_names = {field.name for field in fields(Listing)}
+    for key, value in payload.items():
+        if key in field_names and key not in {"source", "source_listing_id", "source_url", "title", "raw"}:
+            setattr(listing, key, value)
+    return listing

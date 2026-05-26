@@ -11,7 +11,7 @@ Build a frequently refreshed rental intelligence feed for NYC and nearby apartme
 The dashboard should answer:
 
 - What promising listings appeared since the last run?
-- Which listings match current criteria, such as 2 bedrooms under $4,400?
+- Which listings match current criteria, such as 2 bedrooms under $4,500?
 - Which listings have rent-stabilization, 421-a, J-51, or Good Cause Eviction signals?
 - Which listings are duplicates, stale, suspicious, overpriced, or low-value?
 - What changed: new listing, price drop, removed listing, relisted unit, new policy flag?
@@ -21,8 +21,8 @@ The dashboard should answer:
 Start with unified Apify ingestion and prove the loop:
 
 1. StreetEasy via a prebuilt Apify actor.
-2. Craigslist via a dedicated Apify actor.
-3. Facebook Marketplace via a dedicated Apify actor.
+2. Facebook Marketplace via a dedicated Apify actor with strict location filtering.
+3. Craigslist configured but disabled until a hard-capped ingestion path is proven.
 
 The core data model should not depend on Apify, email parsing, or any single source. Every source should be an adapter that can be replaced later.
 
@@ -117,8 +117,9 @@ Current implementation:
 
 - Uses NYC Planning GeoSearch to resolve likely street addresses to BBL, BIN, borough, ZIP, coordinates, and neighborhood.
 - Uses NYC Open Data DOF Property Abatement Detail for J-51 signals by BBL.
-- Supports local 421-a BBL CSV input at `data/policy/421a-bbls.csv`; this is intentionally local until we wire the current DOF 421-a Excel reports into an automated importer.
-- Applies manual/example building signals from `data/policy/building-signals.example.csv`.
+- Supports local 421-a BBL CSV input at `data/policy/421a-bbls.csv` and a cached NYC Open Data Property Exemption Detail lookup for 421-a signals by BBL.
+- Applies manual/example building signals from `data/policy/building-signals.example.csv`, including optional year-built and unit-count columns for a pre-1974/6+ unit heuristic.
+- Adds conservative Good Cause labels only as evidence confidence signals, not legal determinations.
 
 ## Roadmap
 
@@ -166,6 +167,7 @@ Current implementation:
 - firstmovernyc rent-stabilized listings repo: https://github.com/firstmovernyc/nyc-rent-stabilized-listings
 - NYC Planning GeoSearch: https://geosearch.planninglabs.nyc/docs/
 - NYC Open Data DOF Property Abatement Detail: https://data.cityofnewyork.us/d/rgyu-ii48
+- NYC Open Data DOF Property Exemption Detail: https://data.cityofnewyork.us/d/muvi-b6kx
 
 ## Current Live Smoke Notes
 

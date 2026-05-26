@@ -12,7 +12,7 @@ from nyc_apartments.models import Listing
 
 
 GEOSearch_URL = "https://geosearch.planninglabs.nyc/v2/search"
-STREET_ADDRESS_RE = re.compile(r"^\s*\d+[a-z]?\s+\S+", re.I)
+STREET_ADDRESS_RE = re.compile(r"^\s*\d+(?:-\d+)?[a-z]?\s+\S+", re.I)
 
 
 @dataclass(slots=True)
