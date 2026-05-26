@@ -42,11 +42,17 @@ class EnrichmentConfig:
 
 
 @dataclass(slots=True)
+class HistoryConfig:
+    missing_before_removed_runs: int = 2
+
+
+@dataclass(slots=True)
 class AppConfig:
     criteria: Criteria
     sources: list[SourceConfig]
     policy: PolicyConfig = field(default_factory=PolicyConfig)
     enrichment: EnrichmentConfig = field(default_factory=EnrichmentConfig)
+    history: HistoryConfig = field(default_factory=HistoryConfig)
 
 
 def load_config(path: str | Path) -> AppConfig:
@@ -94,7 +100,18 @@ def load_config(path: str | Path) -> AppConfig:
         ),
     )
 
-    return AppConfig(criteria=criteria, sources=sources, policy=policy, enrichment=enrichment)
+    history_raw = raw.get("history", {})
+    history = HistoryConfig(
+        missing_before_removed_runs=int(history_raw.get("missing_before_removed_runs", 2)),
+    )
+
+    return AppConfig(
+        criteria=criteria,
+        sources=sources,
+        policy=policy,
+        enrichment=enrichment,
+        history=history,
+    )
 
 
 def _optional_int(value: Any) -> int | None:

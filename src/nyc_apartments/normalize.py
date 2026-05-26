@@ -19,6 +19,7 @@ def normalize_items(source: str, items: list[dict[str, Any]], criteria: Criteria
     listings = [normalize_item(source, item) for item in items]
     for listing in listings:
         listing.dedupe_key = build_dedupe_key(listing)
+        listing.history_key = build_history_key(listing)
         score_listing(listing, criteria)
     return listings
 
@@ -214,6 +215,28 @@ def build_dedupe_key(listing: Listing) -> str:
         parsed = urlparse(listing.source_url)
         return stable_id("url", f"{parsed.netloc}{parsed.path}")
     return stable_id(listing.source, listing.source_listing_id)
+
+
+def build_history_key(listing: Listing) -> str:
+    if looks_specific_building_key(listing.building_key):
+        return stable_id(
+            "building-unit",
+            "|".join(
+                [
+                    listing.building_key,
+                    listing.unit,
+                    str(listing.bedrooms or ""),
+                ]
+            ),
+        )
+    if listing.source_url:
+        parsed = urlparse(listing.source_url)
+        return stable_id("url", f"{parsed.netloc}{parsed.path}")
+    return stable_id(listing.source, listing.source_listing_id)
+
+
+def looks_specific_building_key(value: str) -> bool:
+    return bool(value and "," not in value and re.search(r"^\s*\d+[a-z]?\s+\S+", value, re.I))
 
 
 def stable_id(namespace: str, value: str) -> str:

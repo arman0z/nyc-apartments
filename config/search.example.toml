@@ -1,30 +1,37 @@
 [criteria]
 min_bedrooms = 2
-max_price = 4400
+max_price = 4500
 areas = [
   "Manhattan",
   "Brooklyn",
   "Queens",
-  "Jersey City",
-  "Hoboken",
+  "Long Island City",
 ]
 strict_location_sources = ["facebook"]
 allowed_location_terms = [
   "New York, New York",
+  "New York, NY",
+  "Manhattan, New York",
   "Brooklyn, New York",
+  "Brooklyn, NY",
   "Queens, New York",
-  "Bronx, New York",
-  "Staten Island, New York",
-  "Jersey City, New Jersey",
-  "Hoboken, New Jersey",
+  "Queens, NY",
   "Long Island City, New York",
+  "Long Island City, NY",
   "Astoria, New York",
+  "Sunnyside, New York",
+  "Woodside, New York",
 ]
 excluded_location_terms = [
   "Paterson",
   "Newark",
   "Deer Park",
+  "Jersey City",
+  "Hoboken",
 ]
+
+[history]
+missing_before_removed_runs = 2
 
 [policy]
 building_signals_path = "data/policy/building-signals.example.csv"
@@ -45,7 +52,7 @@ max_items = 25
 
 [sources.input]
 startUrls = [
-  { url = "https://streeteasy.com/2-bedroom-apartments-for-rent/nyc/price:-4400" },
+  { url = "https://streeteasy.com/2-bedroom-apartments-for-rent/nyc/price:-4500" },
 ]
 maxResults = 25
 detailedMode = false
@@ -62,7 +69,7 @@ maxConcurrency = 1
 maxAge = 1
 proxyConfiguration = { useApifyProxy = true }
 urls = [
-  { url = "https://newyork.craigslist.org/search/apa?query=2%20bedroom&max_price=4400&min_bedrooms=2&postedToday=1" },
+  { url = "https://newyork.craigslist.org/search/apa?query=2%20bedroom&max_price=4500&min_bedrooms=2&postedToday=1" },
 ]
 
 [[sources]]
@@ -74,7 +81,7 @@ max_items = 25
 
 [sources.input]
 startUrls = [
-  { url = "https://www.facebook.com/marketplace/nyc/propertyrentals?maxPrice=4400&exact=false" },
+  { url = "https://www.facebook.com/marketplace/nyc/propertyrentals?maxPrice=4500&exact=false" },
 ]
 resultsLimit = 25
 includeListingDetails = false

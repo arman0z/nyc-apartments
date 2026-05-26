@@ -10,9 +10,11 @@ from nyc_apartments.config import AppConfig, SourceConfig, load_config
 from nyc_apartments.dedupe import dedupe_listings
 from nyc_apartments.enrich.building_signals import apply_building_signals, load_building_signals
 from nyc_apartments.enrich.geocode import enrich_geocodes
+from nyc_apartments.enrich.policy import apply_policy_classification
 from nyc_apartments.enrich.tax_benefits import enrich_tax_benefits
 from nyc_apartments.env import load_dotenv
 from nyc_apartments.filters import filter_listings
+from nyc_apartments.history import apply_listing_history
 from nyc_apartments.normalize import normalize_items
 from nyc_apartments.render.markdown import render_feed, render_listings_page, replace_generated_section
 from nyc_apartments.sources.apify import ApifySource
@@ -55,11 +57,20 @@ def run_pipeline(
         all_listings,
         load_building_signals(config.policy.building_signals_path),
     )
+    apply_policy_classification(all_listings)
     filtered_listings = filter_listings(all_listings, config.criteria)
-    listings = dedupe_listings(filtered_listings)
+    active_listings = dedupe_listings(filtered_listings)
     generated_at = datetime.now(UTC)
 
     json_output = Path(json_path)
+    previous_payloads = load_fixture(json_output)
+    listings = apply_listing_history(
+        active_listings,
+        previous_payloads,
+        generated_at,
+        missing_before_removed_runs=config.history.missing_before_removed_runs,
+    )
+
     json_output.parent.mkdir(parents=True, exist_ok=True)
     json_output.write_text(
         json.dumps([listing.to_dict() for listing in listings], indent=2, sort_keys=True)
@@ -76,7 +87,8 @@ def run_pipeline(
 
     messages = [
         f"loaded {sum(len(items) for items in raw_by_source.values())} raw items",
-        f"rendered {len(listings)} deduped listings",
+        f"rendered {len(active_listings)} active deduped listings",
+        f"tracked {len(listings) - len(active_listings)} missing/removed listings",
         f"updated {readme_output}",
         f"updated {listings_output}",
         f"updated {json_output}",

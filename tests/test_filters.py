@@ -39,6 +39,35 @@ class FilterTests(unittest.TestCase):
 
         self.assertEqual([listing.title for listing in filter_listings(listings, criteria)], ["Keep"])
 
+    def test_area_filter_excludes_known_out_of_scope_borough(self) -> None:
+        criteria = Criteria(
+            min_bedrooms=2,
+            max_price=4500,
+            areas=["Manhattan", "Brooklyn", "Queens", "Long Island City"],
+        )
+        listings = [
+            Listing(
+                source="streeteasy",
+                source_listing_id="1",
+                source_url="https://example.com/1",
+                title="Queens",
+                borough="Queens",
+                price=4400,
+                bedrooms=2,
+            ),
+            Listing(
+                source="streeteasy",
+                source_listing_id="2",
+                source_url="https://example.com/2",
+                title="Bronx",
+                borough="Bronx",
+                price=3000,
+                bedrooms=2,
+            ),
+        ]
+
+        self.assertEqual([listing.title for listing in filter_listings(listings, criteria)], ["Queens"])
+
 
 if __name__ == "__main__":
     unittest.main()

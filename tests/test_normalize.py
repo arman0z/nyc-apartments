@@ -4,6 +4,7 @@ import unittest
 
 from nyc_apartments.config import Criteria
 from nyc_apartments.normalize import (
+    build_history_key,
     normalize_building_key,
     normalize_items,
     parse_bedrooms_from_text,
@@ -68,6 +69,50 @@ class NormalizeTests(unittest.TestCase):
 
         self.assertEqual(listings[0].raw_address, "Queens, NY")
         self.assertIn("facebook_manual_review", listings[0].quality_flags)
+
+    def test_history_key_ignores_price_for_specific_unit(self) -> None:
+        listings = normalize_items(
+            "streeteasy",
+            [
+                {
+                    "id": "1",
+                    "url": "https://example.com/1",
+                    "title": "2 bed",
+                    "address": "1 Test Street #2A",
+                    "price": 4500,
+                    "bedrooms": 2,
+                },
+                {
+                    "id": "2",
+                    "url": "https://example.com/2",
+                    "title": "2 bed",
+                    "address": "1 Test Street #2A",
+                    "price": 4300,
+                    "bedrooms": 2,
+                },
+            ],
+            Criteria(min_bedrooms=2, max_price=4500),
+        )
+
+        self.assertEqual(build_history_key(listings[0]), build_history_key(listings[1]))
+        self.assertNotEqual(listings[0].dedupe_key, listings[1].dedupe_key)
+
+    def test_good_cause_exemption_text_gets_conservative_label(self) -> None:
+        listings = normalize_items(
+            "facebook",
+            [
+                {
+                    "id": "1",
+                    "listingUrl": "https://example.com/1",
+                    "marketplace_listing_title": "2 bedroom condo rental",
+                    "listing_price": {"amount": "3800.00"},
+                    "location": "New York, New York",
+                }
+            ],
+            Criteria(min_bedrooms=2, max_price=4500),
+        )
+
+        self.assertIn("source_text_good_cause_exemption", listings[0].policy_flags)
 
 
 if __name__ == "__main__":

@@ -1,2 +1,2 @@
-building_key,bbl,bin,flags,notes
-456 demo avenue,,,building_registered_rs;tax_benefit_active,Demo stabilized-building plus active tax-benefit signal
+building_key,bbl,bin,year_built,residential_units,flags,notes
+456 demo avenue,,,1931,24,building_registered_rs;tax_benefit_active,Demo stabilized-building plus active tax-benefit signal
