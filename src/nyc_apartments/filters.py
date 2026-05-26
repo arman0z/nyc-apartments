@@ -33,6 +33,9 @@ def matches_criteria(listing: Listing, criteria: Criteria) -> bool:
         if not any(term.lower() in haystack for term in criteria.allowed_location_terms):
             return False
 
+    if criteria.neighborhoods:
+        return any(term.lower() in haystack for term in criteria.neighborhoods)
+
     if criteria.areas and has_known_area(listing):
         return any(term in haystack for term in expanded_area_terms(criteria.areas))
 

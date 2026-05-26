@@ -6,7 +6,7 @@ This is the single working plan for the project. Keep durable decisions here ins
 
 ## Goal
 
-Build a frequently refreshed rental intelligence feed for NYC and nearby apartments. The first useful interface is the GitHub README: a scheduled pipeline should collect listings, normalize them, dedupe them, enrich them with NYC housing-policy signals, rank them, and rewrite a generated listing section.
+Build a rental intelligence feed for NYC and nearby apartments. The first useful interface is the GitHub README: a pipeline should collect listings, normalize them, dedupe them, enrich them with NYC housing-policy signals, filter them, and rewrite a generated listing section.
 
 The dashboard should answer:
 
@@ -17,6 +17,8 @@ The dashboard should answer:
 - What changed: new listing, price drop, removed listing, relisted unit, new policy flag?
 
 ## Current Recommendation
+
+Use a simple yes-list for neighborhoods. Anything listed is in scope; everything else is out of scope. Do not run a broad baseline scan until that list is in `config/search.example.toml`.
 
 Start with unified Apify ingestion and prove the loop:
 
@@ -49,7 +51,7 @@ flowchart LR
   B --> C["Normalize listing schema"]
   C --> D["Deduplicate and track changes"]
   D --> E["Geocode and building joins"]
-  E --> F["Policy and quality scoring"]
+  E --> F["Policy and quality labels"]
   F --> G["Render markdown dashboard"]
   G --> H["Commit updated README/LISTINGS"]
 ```
@@ -69,7 +71,7 @@ Minimum modules once implementation begins:
 - `src/filters.py`: criteria and source-specific noise filtering.
 - `src/dedupe/`: source URL, source ID, address/unit/price, and fuzzy matching.
 - `src/enrich/`: geocoding, BBL/BIN lookup, public data joins, tax-benefit signals.
-- `src/scoring/`: search criteria, value scoring, policy confidence, noise/scam flags.
+- `src/scoring/`: internal quality labels only if needed; avoid user-facing scores.
 - `src/render/`: README and `LISTINGS.md` generation.
 
 ## Canonical Listing Fields
@@ -85,9 +87,9 @@ Minimum useful fields:
 - `bedrooms`, `bathrooms`, `square_feet`
 - `no_fee`, `broker_fee_known`, `fee_notes`
 - `available_at`, `lease_term`
-- `agent_name`, `brokerage`, `contact_url`
+- `agent_name`, `brokerage`, `contact_url` internally only; omit from public output.
 - `dedupe_key`, `canonical_listing_id`
-- `policy_flags`, `quality_flags`, `score`, `score_reasons`
+- `policy_flags`, `quality_flags`
 
 ## Policy And Building Data
 
@@ -133,7 +135,7 @@ Current implementation:
 - Store current normalized listings.
 - Render `LISTINGS.md` and a generated README section.
 - Add basic dedupe.
-- Add a GitHub Actions schedule.
+- Keep GitHub Actions manual-only until filters are ready.
 
 ### Phase 2: Policy Enrichment
 
@@ -144,10 +146,10 @@ Current implementation:
 - Add Good Cause classifier.
 - Show confidence labels and evidence.
 
-### Phase 3: Ranking And Alerts
+### Phase 3: Listings And Alerts
 
 - Add `config/search.example.toml` for criteria.
-- Rank by price, bedrooms, neighborhoods, commute, no-fee, pets, and move-in date.
+- Filter by the explicit neighborhood yes-list.
 - Track price drops, relists, and removed listings.
 - Add Slack/email/SMS notifications only for high-value changes.
 
@@ -175,5 +177,6 @@ Current implementation:
 - StreetEasy live smoke succeeded with 3 listings.
 - Facebook Marketplace live smoke succeeded with 3 listings, all flagged for manual review.
 - Craigslist live smoke was aborted because the tested pay-per-result actor attempted to crawl hundreds of records despite the local smoke cap. Keep Craigslist disabled until we select a controllable actor or build a safer source-specific adapter.
-- While on the Apify free plan, scheduled GitHub Actions runs are capped at 25 StreetEasy and 25 Facebook results every 4 hours. Increase limits and cadence after validating cost.
+- Scheduled GitHub Actions runs are paused while the neighborhood yes-list is being defined. Manual workflow runs remain available.
+- While on the Apify free plan, manual full-config runs are capped at 25 StreetEasy and 25 Facebook results. Increase limits only after validating cost.
 - GitHub Actions restores source/geocode/tax caches so a transient source failure does not wipe prior listings.

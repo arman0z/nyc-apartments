@@ -22,6 +22,8 @@ class ModelTests(unittest.TestCase):
         self.assertNotIn("agent_name", payload)
         self.assertNotIn("brokerage", payload)
         self.assertNotIn("contact_url", payload)
+        self.assertNotIn("score", payload)
+        self.assertNotIn("score_reasons", payload)
 
 
 if __name__ == "__main__":

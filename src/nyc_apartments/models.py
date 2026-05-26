@@ -4,7 +4,14 @@ from dataclasses import asdict, dataclass, field, fields
 from typing import Any
 
 
-PUBLIC_OMIT_FIELDS = {"raw", "agent_name", "brokerage", "contact_url"}
+PUBLIC_OMIT_FIELDS = {
+    "raw",
+    "agent_name",
+    "brokerage",
+    "contact_url",
+    "score",
+    "score_reasons",
+}
 
 
 @dataclass(slots=True)

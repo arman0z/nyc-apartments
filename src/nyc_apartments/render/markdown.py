@@ -29,7 +29,7 @@ def render_feed(listings: list[Listing], generated_at: datetime | None = None) -
     ]
 
     sections = [
-        ("High Priority", high_priority_listings(active_listings), 15),
+        ("Active Listings", sorted_listings(active_listings), 50),
         ("New Listings", changed_listings(active_listings, "new_listing"), 15),
         ("Price Drops", changed_listings(active_listings, "price_drop"), 15),
         ("Policy Signals", policy_signal_listings(active_listings), 15),
@@ -67,18 +67,10 @@ def _interesting_flags(listing: Listing) -> list[str]:
     ]
 
 
-def high_priority_listings(listings: list[Listing]) -> list[Listing]:
-    return [
-        listing
-        for listing in sorted(listings, key=lambda item: item.score, reverse=True)
-        if listing.score >= 50 and not is_manual_review(listing)
-    ]
-
-
 def changed_listings(listings: list[Listing], flag: str) -> list[Listing]:
     return [
         listing
-        for listing in sorted(listings, key=lambda item: item.score, reverse=True)
+        for listing in sorted_listings(listings)
         if flag in listing.change_flags
     ]
 
@@ -86,7 +78,7 @@ def changed_listings(listings: list[Listing], flag: str) -> list[Listing]:
 def policy_signal_listings(listings: list[Listing]) -> list[Listing]:
     return [
         listing
-        for listing in sorted(listings, key=lambda item: item.score, reverse=True)
+        for listing in sorted_listings(listings)
         if strong_policy_flags(listing)
     ]
 
@@ -94,7 +86,7 @@ def policy_signal_listings(listings: list[Listing]) -> list[Listing]:
 def manual_review_listings(listings: list[Listing]) -> list[Listing]:
     return [
         listing
-        for listing in sorted(listings, key=lambda item: item.score, reverse=True)
+        for listing in sorted_listings(listings)
         if is_manual_review(listing)
     ]
 
@@ -107,8 +99,8 @@ def render_section(title: str, listings: list[Listing], limit: int) -> list[str]
 
     lines.extend(
         [
-            "| Score | Price | Beds | Area/address | Source | BBL/BIN | Signals | Change | Link |",
-            "| ---: | --- | --- | --- | --- | --- | --- | --- | --- |",
+            "| Price | Beds | Area/address | Source | BBL/BIN | Signals | Change | Link |",
+            "| --- | --- | --- | --- | --- | --- | --- | --- |",
         ]
     )
     for listing in listings[:limit]:
@@ -124,8 +116,7 @@ def render_listing_row(listing: Listing) -> str:
     link = f"[{title}]({listing.source_url})" if listing.source_url else title
     return " | ".join(
         [
-            "| " + str(listing.score),
-            listing.display_price,
+            "| " + listing.display_price,
             listing.display_beds,
             _escape(area),
             listing.source,
@@ -174,6 +165,17 @@ def strong_policy_flags(listing: Listing) -> list[str]:
 
 def is_manual_review(listing: Listing) -> bool:
     return any(flag.endswith("_manual_review") for flag in listing.quality_flags)
+
+
+def sorted_listings(listings: list[Listing]) -> list[Listing]:
+    return sorted(
+        listings,
+        key=lambda listing: (
+            "new_listing" not in listing.change_flags,
+            listing.price if listing.price is not None else 10**9,
+            listing.raw_address or listing.title,
+        ),
+    )
 
 
 def _escape(value: str) -> str:

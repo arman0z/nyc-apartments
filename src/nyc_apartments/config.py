@@ -11,6 +11,7 @@ class Criteria:
     min_bedrooms: float | None = None
     max_price: int | None = None
     areas: list[str] = field(default_factory=list)
+    neighborhoods: list[str] = field(default_factory=list)
     strict_location_sources: list[str] = field(default_factory=list)
     allowed_location_terms: list[str] = field(default_factory=list)
     excluded_location_terms: list[str] = field(default_factory=list)
@@ -64,6 +65,7 @@ def load_config(path: str | Path) -> AppConfig:
         min_bedrooms=_optional_float(criteria_raw.get("min_bedrooms")),
         max_price=_optional_int(criteria_raw.get("max_price")),
         areas=list(criteria_raw.get("areas", [])),
+        neighborhoods=list(criteria_raw.get("neighborhoods", [])),
         strict_location_sources=list(criteria_raw.get("strict_location_sources", [])),
         allowed_location_terms=list(criteria_raw.get("allowed_location_terms", [])),
         excluded_location_terms=list(criteria_raw.get("excluded_location_terms", [])),

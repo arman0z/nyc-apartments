@@ -7,6 +7,7 @@ areas = [
   "Queens",
   "Long Island City",
 ]
+neighborhoods = []
 strict_location_sources = ["facebook"]
 allowed_location_terms = [
   "New York, New York",

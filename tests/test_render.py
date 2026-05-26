@@ -25,7 +25,8 @@ class RenderTests(unittest.TestCase):
 
         self.assertIn(START_MARKER, feed)
         self.assertIn(END_MARKER, feed)
-        self.assertIn("### High Priority", feed)
+        self.assertIn("### Active Listings", feed)
+        self.assertNotIn("| Score |", feed)
         self.assertIn("[Test Listing](https://example.com/listing)", feed)
 
     def test_render_feed_splits_new_and_price_drops(self) -> None:

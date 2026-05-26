@@ -68,6 +68,37 @@ class FilterTests(unittest.TestCase):
 
         self.assertEqual([listing.title for listing in filter_listings(listings, criteria)], ["Queens"])
 
+    def test_neighborhood_yes_list_excludes_everything_else(self) -> None:
+        criteria = Criteria(
+            min_bedrooms=2,
+            max_price=4500,
+            neighborhoods=["Park Slope"],
+        )
+        listings = [
+            Listing(
+                source="streeteasy",
+                source_listing_id="1",
+                source_url="https://example.com/1",
+                title="Keep",
+                neighborhood="Park Slope",
+                borough="Brooklyn",
+                price=4400,
+                bedrooms=2,
+            ),
+            Listing(
+                source="streeteasy",
+                source_listing_id="2",
+                source_url="https://example.com/2",
+                title="Drop",
+                neighborhood="Ditmars-Steinway",
+                borough="Queens",
+                price=3350,
+                bedrooms=2,
+            ),
+        ]
+
+        self.assertEqual([listing.title for listing in filter_listings(listings, criteria)], ["Keep"])
+
 
 if __name__ == "__main__":
     unittest.main()

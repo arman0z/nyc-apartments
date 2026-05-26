@@ -7,6 +7,9 @@ areas = [
   "Queens",
   "Long Island City",
 ]
+# Fill this with the exact yes-list before the baseline scan. When non-empty,
+# listings outside these neighborhoods are excluded.
+neighborhoods = []
 strict_location_sources = ["facebook"]
 allowed_location_terms = [
   "New York, New York",
