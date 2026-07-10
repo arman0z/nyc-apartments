@@ -46,7 +46,7 @@ For public GitHub output, the dashboard should link back to original listings an
 <!-- NYC_APARTMENT_FEED_START -->
 ## Current Listing Feed
 
-Last updated: 2026-07-10T18:02:38+00:00
+Last updated: 2026-07-10T21:29:30+00:00
 Active listings: 0 (no active listings)
 Missing/removed tracked: 0
 
