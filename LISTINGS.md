@@ -3,7 +3,7 @@
 <!-- NYC_APARTMENT_FEED_START -->
 ## Current Listing Feed
 
-Last updated: 2026-07-11T09:50:22+00:00
+Last updated: 2026-07-11T13:56:59+00:00
 Active listings: 0 (no active listings)
 Missing/removed tracked: 0
 
